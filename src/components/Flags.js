@@ -12,7 +12,9 @@ const Flags = ({url}) => {
                 setFlagData(res)
                 console.log(res)
             }
-        )
+        ).catch((error)=>{
+            console.log(error)
+        })
     }
 
     useEffect(

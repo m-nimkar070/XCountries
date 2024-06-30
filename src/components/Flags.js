@@ -9,14 +9,14 @@ const Flags = ({url}) => {
             const response = await fetch(url);
             
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Error fetching data:  ${response.status}`);
             }
     
             const res = await response.json();
             setFlagData(res);
             console.log(res);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error fetching data: ', error);
         }
     }
 

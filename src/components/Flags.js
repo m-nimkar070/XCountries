@@ -5,16 +5,19 @@ const Flags = ({url}) => {
     const [flagData , setFlagData] = useState(null)
     console.log(url)
     const performApiCall =async (url)=>{
-        await fetch(url).then(
-            (res)=> res.json()
-        ).then(
-            (res)=>{
-                setFlagData(res)
-                console.log(res)
+        try {
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        ).catch((error)=>{
-            console.error(error)
-        })
+    
+            const res = await response.json();
+            setFlagData(res);
+            console.log(res);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     useEffect(
@@ -28,7 +31,7 @@ const Flags = ({url}) => {
         <div className='flag__Container'>
             {flagData && flagData.map((item)=>
                 <div className="flag__card" key={item.name}>
-                <img src={item.flag} alt="a" />
+                <img src={item.flag} alt={item.name} />
                 <p>{item.name}</p>
             </div>
             )}

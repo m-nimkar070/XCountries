@@ -13,7 +13,7 @@ const Flags = ({url}) => {
                 console.log(res)
             }
         ).catch((error)=>{
-            console.log(error)
+            console.error(error)
         })
     }
 

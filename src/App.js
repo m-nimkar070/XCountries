@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import CountryList from './components/CountryList';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import CountryList from "./components/CountryList";
+import "./App.css";
 
 const URL = "https://xcountries-backend.azurewebsites.net/all";
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
+  
   useEffect(() => {
     fetch(URL)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Network response was not ok : ${response.status}`);
         }
         return response.json();
       })
-      .then(data => setCountries(data))
-      .catch(error => console.console('Error fetching data:', error));
+      .then((data) => setCountries(data))
+      .catch((error) => console.console("Error fetching data:", error));
   }, []);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredCountries = countries.filter(country =>
+  const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

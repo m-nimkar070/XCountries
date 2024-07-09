@@ -112,7 +112,7 @@ function App() {
         {search === ""
           ? countries.map((country) => {
               return (
-                <div className="countryCard">
+                <div className="countryCard" key={country.cca3}>
                   <img src={country.flags.png} alt={country.flag}></img>
                   <p>{country.name.common}</p>
                 </div>
@@ -120,7 +120,7 @@ function App() {
             })
           : filtered.map((country) => {
               return (
-                <div className="countryCard">
+                <div className="countryCard" key={country.cca3}>
                   <img src={country.flags.png} alt={country.flag}></img>
                   <p>{country.name.common}</p>
                 </div>

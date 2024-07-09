@@ -4,8 +4,8 @@ const Country = ({ country}) => {
   // console.log("country " , country)
   return (
     <div className="countryCard">
-      <img src={country.flag} alt={`Flag of ${country.name}`} width="50" />
-      <p>{country.name}</p>
+      <img src={country.flags.png} alt={country.flag} width={"50px"}/>
+      <p>{country.name.common}</p>
     </div>
   );
 };

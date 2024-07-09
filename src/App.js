@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CountryList from "./components/CountryList";
 import "./App.css";
 
-const URL = "https://xcountries-backend.azurewebsites.net/all";
+const URL = "https://restcountries.com/v3.1/all";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -33,7 +33,7 @@ function App() {
 
   const performSearch = () => {
     const filteredCountries = countries.filter((country) =>
-      country.name.toLowerCase().includes(searchTerm.toLowerCase())
+      country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredCountry(filteredCountries);

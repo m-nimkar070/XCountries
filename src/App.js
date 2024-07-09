@@ -17,7 +17,7 @@ function App() {
         return response.json();
       })
       .then(data => setCountries(data))
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => console.console('Error fetching data:', error));
   }, []);
 
   const handleSearch = (e) => {

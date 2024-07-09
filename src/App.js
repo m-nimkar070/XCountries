@@ -1,13 +1,38 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import CountryList from './components/CountryList';
 import './App.css';
-import Flags from './components/Flags';
+
+const URL = "https://xcountries-backend.azurewebsites.net/all";
 
 function App() {
-  const URL = "https://xcountries-backend.azurewebsites.net/all";
+  const [countries, setCountries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    fetch(URL)
+      .then(response => response.json())
+      .then(data => setCountries(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredCountries = countries.filter(country =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="App">
-      <Flags url={URL}/>
+      <h1>Country Search</h1>
+      <input
+        type="text"
+        placeholder="Search for a country..."
+        value={searchTerm}
+        onChange={handleSearch}
+      />
+      <CountryList countries={filteredCountries} />
     </div>
   );
 }

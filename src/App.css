@@ -1,4 +1,25 @@
-body{
-  width: 100vw;
-  height: 100vh;
+.App {
+  text-align: center;
+  margin: 20px;
+}
+
+input {
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 300px;
+}
+
+.country-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.country {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px;
+  text-align: center;
 }

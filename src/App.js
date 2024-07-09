@@ -4,8 +4,10 @@ import "./App.css";
 
 const URL = "https://xcountries-backend.azurewebsites.net/all";
 
+
 function App() {
   const [countries, setCountries] = useState([]);
+  const [filteredCountry , setFilteredCountry] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchData = async () => {
@@ -22,13 +24,22 @@ function App() {
     fetchData();
   }, []);
 
+
+  useEffect(()=>{
+    performSearch();
+  },[searchTerm]);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const performSearch = () =>{
+    const filteredCountries = countries.filter((country) =>
+      country.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredCountry(filteredCountries);
+  }
 
   return (
     <>
@@ -37,9 +48,12 @@ function App() {
           type="text"
           placeholder="Search for a country..."
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e)=>handleSearch(e)}
         />
-        <CountryList countries={filteredCountries} />
+        {!(searchTerm === "") ? 
+        <CountryList countries={filteredCountry} /> 
+        : <CountryList countries={countries} />}
+        
       </div>
     </>
   );

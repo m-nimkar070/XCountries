@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Country = ({ country }) => {
+const Country = ({ country}) => {
+  // console.log("country " , country)
   return (
     <div className="countryCard">
       <img src={country.flag} alt={`Flag of ${country.name}`} width="50" />

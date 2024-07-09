@@ -14,7 +14,7 @@ function App() {
       const data = await res.json();
       setCountries(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -32,14 +32,13 @@ function App() {
 
   return (
     <>
-        <h1>Country Search</h1>
+      <div className="App">
         <input
           type="text"
           placeholder="Search for a country..."
           value={searchTerm}
           onChange={handleSearch}
         />
-      <div className="App">
         <CountryList countries={filteredCountries} />
       </div>
     </>

@@ -4,10 +4,9 @@ import "./App.css";
 
 const URL = "https://xcountries-backend.azurewebsites.net/all";
 
-
 function App() {
   const [countries, setCountries] = useState([]);
-  const [filteredCountry , setFilteredCountry] = useState([]);
+  const [filteredCountry, setFilteredCountry] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchData = async () => {
@@ -24,36 +23,40 @@ function App() {
     fetchData();
   }, []);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     performSearch();
-  },[searchTerm]);
+  }, [searchTerm]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const performSearch = () =>{
+  const performSearch = () => {
     const filteredCountries = countries.filter((country) =>
       country.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredCountry(filteredCountries);
-  }
+  };
 
   return (
     <>
-      <div className="App">
-        <input
-          type="text"
-          placeholder="Search for a country..."
-          value={searchTerm}
-          onChange={(e)=>handleSearch(e)}
-        />
-        {!(searchTerm === "") ? 
-        <CountryList countries={filteredCountry} /> 
-        : <CountryList countries={countries} />}
-        
+      <div>
+        <div style={{textAlign:"center", margin:"5px", padding:"5px"}}>
+          <input
+            type="text"
+            placeholder="Search for a country..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e)}
+          />
+        </div>
+        <div className="App">
+          {!(searchTerm === "") ? (
+            <CountryList countries={filteredCountry} />
+          ) : (
+            <CountryList countries={countries} />
+          )}
+        </div>
       </div>
     </>
   );

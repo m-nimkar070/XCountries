@@ -91,8 +91,9 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const input = search.trim();
     const data = countries.filter((country) =>
-      country.name.common.toLowerCase().includes(search.toLowerCase())
+      country.name.common.toLowerCase().includes(input.toLowerCase())
     );
     setFiltered(data);
   }, [search]);

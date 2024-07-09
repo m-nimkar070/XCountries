@@ -8,7 +8,7 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  
+
   useEffect(() => {
     fetch(URL)
       .then((response) => {
@@ -18,7 +18,7 @@ function App() {
         return response.json();
       })
       .then((data) => setCountries(data))
-      .catch((error) => console.console("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const handleSearch = (e) => {

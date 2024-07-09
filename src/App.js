@@ -8,15 +8,15 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchData= async()=>{
+  const fetchData = async () => {
     try {
       const res = await fetch(URL);
       const data = await res.json();
       setCountries(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -31,16 +31,18 @@ function App() {
   );
 
   return (
-    <div className="App">
-      <h1>Country Search</h1>
-      <input
-        type="text"
-        placeholder="Search for a country..."
-        value={searchTerm}
-        onChange={handleSearch}
-      />
-      <CountryList countries={filteredCountries} />
-    </div>
+    <>
+        <h1>Country Search</h1>
+        <input
+          type="text"
+          placeholder="Search for a country..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      <div className="App">
+        <CountryList countries={filteredCountries} />
+      </div>
+    </>
   );
 }
 

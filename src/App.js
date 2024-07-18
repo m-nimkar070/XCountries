@@ -80,9 +80,10 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await fetch("https://restcountries.com/v3.1/all");
+        const resp = await fetch("https://xcountriesapi.onrender.com/all");
         const data = await resp.json();
-        setCountries(data);
+        // console.log(data);
+        setCountries(data.data);
       } catch (err) {
         console.log(err);
       }
@@ -93,12 +94,12 @@ function App() {
   useEffect(() => {
     const input = search.trim();
     const data = countries.filter((country) =>
-      country.name.common.toLowerCase().includes(input.toLowerCase())
+      country.name.toLowerCase().includes(input.toLowerCase())
     );
     setFiltered(data);
   }, [search]);
 
-  console.log(countries);
+  // console.log(countries);
   return (
     <div>
       <div className="inp">
@@ -110,19 +111,19 @@ function App() {
       </div>
       <div className="App">
         {search === ""
-          ? countries.map((country) => {
+          ? countries.map((country , idx) => {
               return (
-                <div className="countryCard" key={country.cca3}>
-                  <img src={country.flags.png} alt={country.flag}></img>
-                  <p>{country.name.common}</p>
+                <div className="countryCard" key={idx}>
+                  <img src={country.flag} alt={country.flag}></img>
+                  <p>{country.name}</p>
                 </div>
               );
             })
-          : filtered.map((country) => {
+          : filtered.map((country , idx) => {
               return (
-                <div className="countryCard" key={country.cca3}>
-                  <img src={country.flags.png} alt={country.flag}></img>
-                  <p>{country.name.common}</p>
+                <div className="countryCard" key={idx}>
+                  <img src={country.flag} alt={country.flag}></img>
+                  <p>{country.name}</p>
                 </div>
               );
             })}

@@ -1,132 +1,70 @@
-// import React, { useEffect, useState } from "react";
-// import CountryList from "./components/CountryList";
-// import "./App.css";
-
-// const URL = "https://restcountries.com/v3.1/all";
-
-// function App() {
-//   const [countries, setCountries] = useState([]);
-//   const [filteredCountry, setFilteredCountry] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState("");
-
-//   const fetchData = async () => {
-//     try {
-//       const res = await fetch(URL);
-//       const data = await res.json();
-//       setCountries(data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   useEffect(() => {
-//     performSearch();
-//   }, [searchTerm]);
-
-//   const handleSearch = (e) => {
-//     setSearchTerm(e.target.value);
-//   };
-
-//   const performSearch = () => {
-//     const filteredCountries = countries.filter((country) =>
-//       country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
-//     );
-
-//     setFilteredCountry(filteredCountries);
-//   };
-
-//   return (
-//     <>
-//       <div>
-//         <div style={{textAlign:"center", margin:"5px", padding:"5px"}}>
-//           <input
-//             type="text"
-//             placeholder="Search for a country..."
-//             value={searchTerm}
-//             onChange={(e) => handleSearch(e)}
-//           />
-//         </div>
-//         <div className="App">
-//           {!(searchTerm === "") ? (
-//             <CountryList countries={filteredCountry} />
-//           ) : (
-//             <CountryList countries={countries} />
-//           )}
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-import "./App.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import CountriesSearch from "./components/CountriesSearch";
 
 function App() {
-  const [countries, setCountries] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [search, setSearch] = useState("");
+  const [countryData, setCountryData] = useState([]);
+  const [filterCountryData, setFilterCountryData] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    setSearchText(e.target.value);
+  };
+
+  const fetchCountryData = async () => {
+    let url = "https://restcountries.com/v3.1/all";
+    try {
+      let response = await axios.get(url);
+      setCountryData(response.data);
+      setFilterCountryData(response.data);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resp = await fetch("https://xcountriesapi.onrender.com/all");
-        const data = await resp.json();
-        // console.log(data);
-        setCountries(data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+    fetchCountryData();
   }, []);
 
-  useEffect(() => {
-    const input = search.trim();
-    const data = countries.filter((country) =>
-      country.name.toLowerCase().includes(input.toLowerCase())
-    );
-    setFiltered(data);
-  }, [search]);
+  const searchCountries = async () => {
+    if (searchText === "") {
+      setFilterCountryData(countryData);
+    }
 
-  // console.log(countries);
+    let url = "https://restcountries.com/v3.1/all";
+
+    try {
+      let response = await axios.get(url);
+
+      const filteredData = response.data.filter((country) =>
+        country.name.common.toLowerCase().includes(searchText.toLowerCase())
+      );
+
+      setFilterCountryData(filteredData);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    searchCountries();
+  }, [searchText]);
+
   return (
     <div>
-      <div className="inp">
-        <input
-          type="text"
-          placeholder="Enter a country"
-          onChange={(e) => handleChange(e)}
-        />
+      <div className="searchSection">
+        <form>
+          <input
+            type="text"
+            placeholder="Search for countries..."
+            value={searchText}
+            onChange={(e) => handleChange(e)}
+          />
+        </form>
       </div>
       <div className="App">
-        {search === ""
-          ? countries.map((country , idx) => {
-              return (
-                <div className="countryCard" key={idx}>
-                  <img src={country.flag} alt={country.flag}></img>
-                  <p>{country.name}</p>
-                </div>
-              );
-            })
-          : filtered.map((country , idx) => {
-              return (
-                <div className="countryCard" key={idx}>
-                  <img src={country.flag} alt={country.flag}></img>
-                  <p>{country.name}</p>
-                </div>
-              );
-            })}
+        {filterCountryData &&
+          filterCountryData.map((ele) => <CountriesSearch data={ele} />)}
       </div>
     </div>
   );
